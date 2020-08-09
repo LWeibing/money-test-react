@@ -3,6 +3,7 @@ import React from 'react';
 
 const TypeSection = styled.section`
   > ol{
+    box-shadow:rgba(0,0,0,0.25);
     background: #eee;
     display: flex;
     text-align: center;
