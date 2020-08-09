@@ -5,6 +5,11 @@ const TagSection = styled.section`
     background: white;
     font-size: 14px;
     padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
     > ol {
       display: flex;
       flex-wrap: wrap;
