@@ -3,11 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Tag from '../components/Money/TagSection';
 import Type from '../components/Money/TypeSection';
+import Notes from '../components/Money/NotesSection';
 
 
-const NotesSection = styled.section`
-  
-`
+
 const NumberPadSection = styled.section`
   
 `
@@ -16,9 +15,7 @@ function Money() {
     <Layout>
       <Type/>
       <Tag/>
-      <NotesSection>
-        100
-      </NotesSection>
+      <Notes/>
       <NumberPadSection>
         <button>1</button>
         <button>2</button>
