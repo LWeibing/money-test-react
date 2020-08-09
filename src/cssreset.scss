@@ -1,30 +1,43 @@
-@import-normalize;
+@import-normalize ;
 @import "helper";
-*{
+* {
   margin: 0;
   padding: 0;
 }
-*{
+
+* {
   box-sizing: border-box;
 }
-*::before{
+
+*::before {
   box-sizing: border-box;
 }
-*::after{
+
+*::after {
   box-sizing: border-box;
 }
-*:focus{
+
+*:focus {
   outline: none;
 }
-ul,ol,li{
+
+ul, ol, li {
   list-style: none;
 }
-a{
+
+a {
   text-decoration: none;
   color: inherit;
 }
-body{
+
+body {
   font-family: $font-hei;
   font-size: 16px;
   line-height: 1.2;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: block;
 }
