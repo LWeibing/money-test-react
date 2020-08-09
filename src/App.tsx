@@ -23,10 +23,10 @@ function App() {
         <Route path="/statistics">
           <Statistics/>
         </Route>
+        <Redirect exact from="/" to="/money"/>
         <Route path="*">
           <NoMatch/>
         </Route>
-        <Redirect exact from="/" to="/money"/>
       </Switch>
     </Router>
   );
