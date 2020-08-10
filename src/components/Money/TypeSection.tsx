@@ -23,17 +23,20 @@ const Wrapper = styled.section`
   }
 `;
 
-const TypeSection: React.FC = () => {
+type Props = {
+  value: '-' | '+';
+  onChange: (value: '-' | '+') => void
+}
+const TypeSection: React.FC<Props> = (props) => {
   const typeMap = {'-': '支出', '+': '收入'};
   type Keys = keyof typeof typeMap // 获取 typeMap 的key作为类型
   const [typeList] = useState<Keys[]>(['-', '+']);
-  const [type, setType] = useState('-');
-
+  const type = props.value;
   return (
     <Wrapper>
       <ol>
         {typeList.map(t => <li className={type === t ? 'selected' : ''}
-                               onClick={() => {setType(t);}} key={t}>{typeMap[t]}</li>)}
+                               onClick={() => {props.onChange(t);}} key={t}>{typeMap[t]}</li>)}
       </ol>
     </Wrapper>
   );
