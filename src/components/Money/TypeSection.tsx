@@ -25,7 +25,7 @@ const Wrapper = styled.section`
 
 const TypeSection: React.FC = () => {
   const typeMap = {'-': '支出', '+': '收入'};
-  type Keys =  keyof typeof typeMap // 获取 typeMap 的key作为类型
+  type Keys = keyof typeof typeMap // 获取 typeMap 的key作为类型
   const [typeList] = useState<Keys[]>(['-', '+']);
   const [type, setType] = useState('-');
 
@@ -33,7 +33,7 @@ const TypeSection: React.FC = () => {
     <Wrapper>
       <ol>
         {typeList.map(t => <li className={type === t ? 'selected' : ''}
-                               onClick={() => {setType(t);}}>{typeMap[t]}</li>)}
+                               onClick={() => {setType(t);}} key={t}>{typeMap[t]}</li>)}
       </ol>
     </Wrapper>
   );
