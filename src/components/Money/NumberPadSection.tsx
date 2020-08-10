@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, {useState} from 'react';
 
-const NumberPadSection = styled.section`
+const Wrapper = styled.section`
   background: white;
   > .output {
      box-shadow: inset 0 -3px 3px -3px rgba(0,0,0,0.25),
@@ -63,11 +63,36 @@ const NumberPadSection = styled.section`
         }
        }
 `;
-const NumberPad = () => {
+const NumberPadSection: React.FC = () => {
+  const [output, setOutput] = useState('0');
+  const onClickButtonWrapper = (e: React.MouseEvent) => {
+    const text = (e.target as HTMLButtonElement).textContent;
+    if (text === null) {return;}
+    switch (text) {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '.':
+        if(output==='0'){
+          setOutput(text)
+        }else{
+          setOutput(output+text)
+        }
+        break;
+    }
+
+  };
   return (
-    <NumberPadSection>
-      <div className="output"><span className="symbol">¥</span>100</div>
-      <div className="pad clearfix">
+    <Wrapper>
+      <div className="output"><span className="symbol">¥</span>{output}</div>
+      <div className="pad clearfix" onClick={onClickButtonWrapper}>
         <button>1</button>
         <button>2</button>
         <button>3</button>
@@ -83,7 +108,7 @@ const NumberPad = () => {
         <button className="zero">0</button>
         <button>.</button>
       </div>
-    </NumberPadSection>
+    </Wrapper>
   );
 };
-export default NumberPad;
+export {NumberPadSection};
