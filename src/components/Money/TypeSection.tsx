@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, {useState} from 'react';
 
-const TypeSection = styled.section`
+const Wrapper = styled.section`
   > ol{
     box-shadow:rgba(0,0,0,0.25);
     background: #eee;
@@ -23,15 +23,20 @@ const TypeSection = styled.section`
   }
 `;
 
-const Type = () => {
+const TypeSection: React.FC = () => {
+  const typeMap = {'-': '支出', '+': '收入'};
+  type Keys =  keyof typeof typeMap // 获取 typeMap 的key作为类型
+  const [typeList] = useState<Keys[]>(['-', '+']);
+  const [type, setType] = useState('-');
+
   return (
-    <TypeSection>
+    <Wrapper>
       <ol>
-        <li className="selected">支出</li>
-        <li>收入</li>
+        {typeList.map(t => <li className={type === t ? 'selected' : ''}
+                               onClick={() => {setType(t);}}>{typeMap[t]}</li>)}
       </ol>
-    </TypeSection>
+    </Wrapper>
   );
 };
 
-export default Type;
+export {TypeSection};
