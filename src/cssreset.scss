@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 
-*:focus {
+:focus {
   outline: none;
 }
 
@@ -36,8 +36,24 @@ body {
   line-height: 1.2;
 }
 
+button {
+  font-family: inherit;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+}
+
 .clearfix::after {
   content: "";
   clear: both;
   display: block;
+}
+
+.oneLine {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
