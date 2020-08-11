@@ -19,26 +19,16 @@ function Money() {
     note: '',
     amount: 0
   });
+  type Selected = typeof selected
+  const onChange = (obj: Partial<Selected>) => {  //Partial 可以使用部分类型
+    setSelected({...selected, ...obj});
+  };
   return (
     <MyLayout>
-      <TypeSection value={selected.type} onChange={(type) => {
-        setSelected({
-          ...selected, type: type
-        });
-      }}/>
-      <TagsSection value={selected.tags} onChange={(tags) => setSelected({
-        ...selected, tags: tags
-      })}/>
-      <NoteSection value={selected.note} onChange={(note) => {
-        setSelected({
-          ...selected, note: note
-        });
-      }}/>
-      <NumberPadSection value={selected.amount} onChange={(amount) => {
-        setSelected({
-          ...selected, amount: amount
-        });
-      }} onOk={() => {}}/>
+      <TypeSection value={selected.type} onChange={(type) => onChange({type})}/>
+      <TagsSection value={selected.tags} onChange={(tags) => onChange({tags})}/>
+      <NoteSection value={selected.note} onChange={(note) => onChange({note})}/>
+      <NumberPadSection value={selected.amount} onChange={(amount) => onChange({amount})} onOk={() => {}}/>
     </MyLayout>
   );
 }
