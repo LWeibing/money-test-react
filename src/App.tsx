@@ -27,7 +27,7 @@ function App() {
           <Route exact path="/labels">
             <Labels/>
           </Route>
-          <Route exact path="/labels/:tag">
+          <Route exact path="/labels/:id">
             <Tag/>
           </Route>
           <Route exact path="/statistics">

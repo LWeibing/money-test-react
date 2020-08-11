@@ -38,7 +38,7 @@ function Labels() {
       <TagsList>
         <ol>
           {tags.map(tag => <li key={tag.id}>
-            <Link to={'/labels/' + tag}>
+            <Link to={'/labels/' + tag.id}>
               <span className="oneLine">{tag.name}</span>
               <Icon name="right"/>
             </Link>
