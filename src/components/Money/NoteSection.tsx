@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, {ChangeEventHandler} from 'react';
+import {Input} from '../Input';
 
 const Wrapper = styled.section`
   > label{
@@ -27,12 +28,10 @@ type Props = {
 }
 const NoteSection: React.FC<Props> = (props) => {
   const note = props.value;
+  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => props.onChange(e.target.value);
   return (
     <Wrapper>
-      <label>
-        <span>备注</span>
-        <input type="text" placeholder="在这里输入备注" value={note} onChange={(e) => props.onChange(e.target.value)}/>
-      </label>
+      <Input label="备注" type="text" placeholder="在这里输入备注" value={note} onChange={onChange}/>
     </Wrapper>
   );
 };
