@@ -34,10 +34,11 @@ body {
   font-family: $font-hei;
   font-size: 16px;
   line-height: 1.2;
+  background: #eeeeee;
 }
 
-button {
-  font-family: inherit;
+button, input {
+  font: inherit;
 }
 
 .icon {

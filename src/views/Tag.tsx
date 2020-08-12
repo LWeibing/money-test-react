@@ -19,10 +19,19 @@ const Topbar = styled.header`
     align-items: center;
     justify-content: space-between;
 `;
+const InputWrapper = styled.div`
+    background: white;
+    margin-top: 8px;
+`;
+const ButtonWrapper = styled.div`
+    text-align: center;
+    padding: 16px;
+    margin-top: 44-16px;
+`;
 const Tag: React.FC = () => {
-  const {findTag} = useTags();
-  let {id} = useParams<Params>();
-  const tag = findTag(parseInt(id));
+  const {findTag, updateTag} = useTags();
+  let {id: idString} = useParams<Params>();
+  const tag = findTag(parseInt(idString));
   return (
     <Layout>
       <Topbar>
@@ -30,12 +39,14 @@ const Tag: React.FC = () => {
         <span>编辑标签</span>
         <span/>
       </Topbar>
-      <div>
-        <Input label="标签名" placeholder={tag.name}/>
-      </div>
-      <div>
+      <InputWrapper>
+        <Input label="标签名" placeholder="标签名" value={tag.name} onChange={(e) => {
+          updateTag(tag.id, {name: e.target.value});
+        }}/>
+      </InputWrapper>
+      <ButtonWrapper>
         <CreatedButton>删除标签</CreatedButton>
-      </div>
+      </ButtonWrapper>
     </Layout>
   );
 };

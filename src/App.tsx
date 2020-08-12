@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import {Tag} from './views/Tag';
 
 const AppWrapper = styled.div`
-  background: #eeeeee;
+  //background: #eeeeee;
 `;
 
 function App() {
