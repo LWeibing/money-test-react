@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const Button = styled.button`
@@ -9,11 +8,5 @@ const Button = styled.button`
     height: 40px;
     padding: 0 16px;
 `;
-const CreatedButton:React.FC = (props) => {
-  return (
-    <Button>
-      {props.children}
-    </Button>
-  );
-};
-export {CreatedButton};
+
+export {Button};

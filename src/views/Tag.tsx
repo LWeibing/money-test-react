@@ -3,7 +3,7 @@ import {useTags} from 'useTags';
 import {useParams} from 'react-router-dom';
 import Layout from 'components/Layout';
 import Icon from 'components/Icon';
-import {CreatedButton} from 'components/CreatedButton';
+import {Button} from 'components/Button';
 import styled from 'styled-components';
 import {Input} from 'components/Input';
 
@@ -29,9 +29,23 @@ const ButtonWrapper = styled.div`
     margin-top: 44-16px;
 `;
 const Tag: React.FC = () => {
-  const {findTag, updateTag} = useTags();
+  const {findTag, updateTag, deleteTag} = useTags();
   let {id: idString} = useParams<Params>();
   const tag = findTag(parseInt(idString));
+  const tagContent = (tag: { id: number, name: string }) => (
+    <div>
+      <InputWrapper>
+        <Input label="标签名" placeholder="标签名" value={tag.name} onChange={(e) => {
+          updateTag(tag.id, {name: e.target.value});
+        }}/>
+      </InputWrapper>
+      <ButtonWrapper>
+        <Button onClick={() => {
+          deleteTag(tag.id);
+        }}>删除标签</Button>
+      </ButtonWrapper>
+    </div>
+  );
   return (
     <Layout>
       <Topbar>
@@ -39,14 +53,7 @@ const Tag: React.FC = () => {
         <span>编辑标签</span>
         <span/>
       </Topbar>
-      <InputWrapper>
-        <Input label="标签名" placeholder="标签名" value={tag.name} onChange={(e) => {
-          updateTag(tag.id, {name: e.target.value});
-        }}/>
-      </InputWrapper>
-      <ButtonWrapper>
-        <CreatedButton>删除标签</CreatedButton>
-      </ButtonWrapper>
+      {tag ? tagContent(tag) : <p>tag 不存在</p>}
     </Layout>
   );
 };
