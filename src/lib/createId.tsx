@@ -1,6 +1,6 @@
-let id = 0;
-const createId = () => {
+let id = parseInt(window.localStorage.getItem('idMax') || '0');
+const createId = (): number => {
   id += 1;
-  return id
+  return id;
 };
 export {createId};
