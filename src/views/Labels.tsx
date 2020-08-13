@@ -44,10 +44,11 @@ function Labels() {
             </Link>
           </li>)}
         </ol>
-        <ButtonWrapper>
-          <Button>新增标签</Button>
-        </ButtonWrapper>
       </TagsList>
+      <ButtonWrapper>
+        <Button>新增标签</Button>
+      </ButtonWrapper>
+
     </Layout>
   );
 }

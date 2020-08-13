@@ -18,6 +18,10 @@ const Topbar = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    > .TagIcon{
+    width: 24px;
+    height: 24px;
+    }
 `;
 const InputWrapper = styled.div`
     background: white;
@@ -46,12 +50,15 @@ const Tag: React.FC = () => {
       </ButtonWrapper>
     </div>
   );
+  const onClickBack = () => {
+    window.history.back();
+  };
   return (
     <Layout>
       <Topbar>
-        <Icon name="left"/>
+        <Icon name="left" className="TagIcon" onClick={onClickBack}/>
         <span>编辑标签</span>
-        <span/>
+        <Icon className="TagIcon"/>
       </Topbar>
       {tag ? tagContent(tag) : <p>tag 不存在</p>}
     </Layout>

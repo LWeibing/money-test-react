@@ -8,6 +8,7 @@ require('icons/label.svg');
 require('icons/statistics.svg');
 
 const NavWrapper = styled.nav`
+  background: white;
   line-height: 24px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   font-size: 12px;

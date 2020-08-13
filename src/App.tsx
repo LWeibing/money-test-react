@@ -9,16 +9,10 @@ import Money from './views/Money';
 import Labels from './views/Labels';
 import Statistics from './views/Statistics';
 import NoMatch from './views/NoMatch';
-import styled from 'styled-components';
 import {Tag} from './views/Tag';
-
-const AppWrapper = styled.div`
-  //background: #eeeeee;
-`;
 
 function App() {
   return (
-    <AppWrapper>
       <Router>
         <Switch>
           <Route exact path="/money">
@@ -39,7 +33,6 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </AppWrapper>
   );
 }
 
