@@ -46,6 +46,7 @@ const Tag: React.FC = () => {
       <ButtonWrapper>
         <Button onClick={() => {
           deleteTag(tag.id);
+          window.history.back();
         }}>删除标签</Button>
       </ButtonWrapper>
     </div>
