@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTags} from 'hooks/useTags';
-import {useParams} from 'react-router-dom';
+import {useParams, useHistory} from 'react-router-dom';
 import Layout from 'components/Layout';
 import Icon from 'components/Icon';
 import {Button} from 'components/Button';
@@ -46,13 +46,14 @@ const Tag: React.FC = () => {
       <ButtonWrapper>
         <Button onClick={() => {
           deleteTag(tag.id);
-          window.history.back();
+          history.goBack();
         }}>删除标签</Button>
       </ButtonWrapper>
     </div>
   );
+  const history = useHistory();
   const onClickBack = () => {
-    window.history.back();
+    history.goBack();
   };
   return (
     <Layout>
