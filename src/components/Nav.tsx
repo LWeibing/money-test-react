@@ -49,13 +49,13 @@ const Nav = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/labels">
+          <NavLink to="/labels" activeClassName='selected'>
             <Icon name="label"/>
             标签
           </NavLink>
         </li>
         <li>
-          <NavLink to="/statistics">
+          <NavLink to="/statistics" activeClassName='selected'>
             <Icon name="statistics"/>
             统计
           </NavLink>

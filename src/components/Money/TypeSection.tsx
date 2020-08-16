@@ -4,7 +4,6 @@ import React, {useState} from 'react';
 const Wrapper = styled.section`
   > ol{
     box-shadow:rgba(0,0,0,0.25);
-    background: #eee;
     display: flex;
     text-align: center;
     font-size: 24px;
