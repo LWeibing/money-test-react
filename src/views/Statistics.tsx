@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {TypeSection} from '../components/Money/TypeSection';
 import styled from 'styled-components';
 import {RecordItem, useRecords} from '../hooks/useRecords';
@@ -25,25 +25,7 @@ const timeTitle = (string: string) => {
   }
 };
 
-
-function Statistics() {
-  const [type, setType] = useState<'-' | '+'>('-');
-  const {records} = useRecords();
-  const {getName} = useTags();
-  const selectedRecord = records.filter(r => r.type === type);
-  const hash: { [K: string]: RecordItem[] } = {};
-
-  selectedRecord.forEach(r => {
-    const key = dayjs(r.createdAt).format('YYYY-MM-DD');
-    if (!(key in hash)) {
-      hash[key] = [];
-    } else {
-      hash[key].push(r);
-    }
-  });
-
-  const Header = styled.div`
-    .title{
+const Header = styled.div`
       padding: 8px 16px;
       line-height: 24px;
       display: flex;
@@ -51,9 +33,8 @@ function Statistics() {
       align-content: center;
       color: rgb(255, 153, 0);
       border-bottom: 1px solid rgb(255, 153, 0);
-      }
   `;
-  const Item = styled.div`
+const Item = styled.div`
       padding: 8px 16px;
       line-height: 24px;
       display: flex;
@@ -66,6 +47,21 @@ function Statistics() {
       color: #999;
       }
 `;
+
+function Statistics() {
+  const [type, setType] = useState<'-' | '+'>('-');
+  const {records} = useRecords();
+  const {getName} = useTags();
+  const hash: { [k: string]: RecordItem[] } = {};
+  const selectedRecords = records.filter(r => r.type === type);
+  selectedRecords.forEach(r => {
+    const key = dayjs(r.createdAt).format('YYYY-MM-DD');
+    if (!(key in hash)) {
+      hash[key] = [];
+    }
+    hash[key].push(r);
+  });
+
   const array = Object.entries(hash).sort((a, b) => {
     if (a[0] === b[0]) return 0;
     if (a[0] > b[0]) return -1;
@@ -79,15 +75,21 @@ function Statistics() {
       </Tab>
       {array.map(([date, records]) => <div key={date}>
         <Header>
-          <h3 className="title">{timeTitle(date)}</h3>
+          {timeTitle(date)}
         </Header>
-        {records.map(r => {
-          return <Item key={r.amount} className="oneLine">
-            <span>{r.tagIds.map(t => getName(t))}</span>
-            <span className="notes">{r.note}</span>
-            <span>¥ {r.amount}</span>
-          </Item>;
-        })}
+        <div>
+          {records.map(r => {
+            return <Item key={r.createdAt}>
+              <div className="oneLine">
+                {r.tagIds.map(tagId => <span
+                  key={tagId}>{getName(tagId)}</span>)
+                  .reduce((result, span, index, array) => result.concat(index < array.length - 1 ? [span, '，'] : [span]), [] as ReactNode[])}
+              </div>
+              {r.note && <div className="notes">{r.note}</div>}
+              <div>¥ {r.amount}</div>
+            </Item>;
+          })}
+        </div>
       </div>)}
     </Layout>
   );
