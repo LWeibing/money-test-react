@@ -7,6 +7,7 @@ import {TypeSection} from 'components/Money/TypeSection';
 import {NumberPadSection} from 'components/Money/NumberPadSection';
 import {useRecords} from '../hooks/useRecords';
 import {Qrcord} from '../components/Qrcode';
+import dayjs from 'dayjs';
 
 const MyLayout = styled(Layout)`
   display: flex;
@@ -20,6 +21,7 @@ const defaultFormData = {
   tagIds: [] as number[],
   note: '',
   amount: 0,
+  createdAt: dayjs().format('YYYY-MM-DD')
 };
 
 function Money(this: any) {
@@ -41,7 +43,8 @@ function Money(this: any) {
     <MyLayout scrollTop={9999}>
       <TypeSection value={selected.type} onChange={(type) => onChange({type})}/>
       <TagsSection value={selected.tagIds} onChange={(tagIds) => onChange({tagIds})}/>
-      <NoteSection value={selected.note} onChange={(note) => onChange({note})}/>
+      <NoteSection value={selected.note} text="备注" type="text" onChange={(note) => onChange({note})}/>
+      <NoteSection value={selected.createdAt} text="日期" type="date" onChange={(createdAt) => onChange({createdAt})}/>
       <NumberPadSection value={selected.amount} onChange={(amount) => onChange({amount})}
                         onOk={submit} key={Math.random()}/>
       {metaWidth > 500 ? <Qrcord/> : ''}

@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 import React, {ChangeEventHandler} from 'react';
 import {Input} from '../Input';
+import dayjs from 'dayjs';
 
 const Wrapper = styled.section`
+    min-height: 60px;
+    padding: 6px 0;
+    background: #eeeeee;
+    margin-top: -6px;
   > label{
   background: #eeeeee;
   font-size: 14px;
@@ -25,13 +30,16 @@ const Wrapper = styled.section`
 type Props = {
   value: string;
   onChange: (value: string) => void;
+  type: string
+  text: string
 }
 const NoteSection: React.FC<Props> = (props) => {
-  const note = props.value;
+  const {value, type, text} = props;
+  const day = dayjs().format('YYYY-MM-DD');
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => props.onChange(e.target.value);
   return (
     <Wrapper>
-      <Input label="备注" type="text" placeholder="在这里输入备注" value={note} onChange={onChange}/>
+      <Input label={text} type={type} placeholder="在这里输入备注" value={value} onChange={onChange} max={day}/>
     </Wrapper>
   );
 };
