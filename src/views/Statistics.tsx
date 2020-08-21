@@ -55,7 +55,7 @@ function Statistics() {
   const hash: { [k: string]: RecordItem[] } = {};
   const selectedRecords = records.filter(r => r.type === type);
   selectedRecords.forEach(r => {
-    const key = dayjs(r.createdAt).format('YYYY-MM-DD');
+    const key = r.createdAt
     if (!(key in hash)) {
       hash[key] = [];
     }
@@ -79,7 +79,7 @@ function Statistics() {
         </Header>
         <div>
           {records.map(r => {
-            return <Item key={r.createdAt}>
+            return <Item key={Math.random()}>
               <div className="oneLine">
                 {r.tagIds.map(tagId => <span
                   key={tagId}>{getName(tagId)}</span>)

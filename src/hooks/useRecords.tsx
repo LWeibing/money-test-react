@@ -8,8 +8,6 @@ export type RecordItem = {
   amount: number
   createdAt: string
 }
-type newRecordItem = Omit<RecordItem, 'createdAt'> //排除 createdAt
-
 export const useRecords = () => {
   const [records, setRecords] = useState<RecordItem[]>([]);
   useEffect(() => {
@@ -18,13 +16,12 @@ export const useRecords = () => {
   useUpdate(() => {
     window.localStorage.setItem('records', JSON.stringify(records));
   }, records);
-  const addRecord = (newRecord: newRecordItem) => {
-    if (newRecord.tagIds.length === 0) {
+  const addRecord = (Record: RecordItem) => {
+    if (Record.tagIds.length === 0) {
       alert('至少选择一个标签');
       return false;
     }
-    const record = {...newRecord, createdAt: (new Date()).toISOString()};
-    setRecords([...records, record]);
+    setRecords([...records, Record]);
     return true;
   };
   return {records, addRecord};
