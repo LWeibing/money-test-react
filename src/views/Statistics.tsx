@@ -64,6 +64,11 @@ const Item = styled.div`
       color: #999;
       }
 `;
+const NoRecord = styled.div`
+  padding: 16px;
+  text-align: center;
+  color: #999;
+`;
 
 function Statistics() {
   const [type, setType] = useState<'-' | '+' | 'dataImg' | 'dataList'>('-');
@@ -72,9 +77,9 @@ function Statistics() {
   const {getName} = useTags();
   const hash: { [k: string]: RecordItem[] } = {};
   const selectedRecords = records.filter(r => r.type === type);
-  const chartWrapper = useRef<HTMLDivElement>(null)
+  const chartWrapper = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if(chartWrapper.current) {
+    if (chartWrapper.current) {
       chartWrapper.current.scrollLeft = chartWrapper.current.scrollWidth;
     }
   }, [type1]);
@@ -94,7 +99,7 @@ function Statistics() {
         result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
       }
     }
-    result.map(group => {
+    result.forEach(group => {
       group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
     });
     return result;
@@ -106,7 +111,7 @@ function Statistics() {
     for (let i = 0; i <= 29; i++) {
       const key = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
       const found = _.find(group, {title: key});
-      array.push({key: key, value: found && found.total || 0});
+      array.push({key: key, value: (found && found.total) || 0});
     }
     array.reverse();
     const keys = array.map(item => item.key);
@@ -162,7 +167,7 @@ function Statistics() {
 
   const dataList = (
     <div>
-      {array.map(([date, records]) => <div key={date}>
+      {array.length > 0 ? array.map(([date, records]) => <div key={date}>
         <Header>
           {timeTitle(date)}
           <span>¥ {group.map(r => r.title === date ? r.total : '')}</span>
@@ -180,7 +185,7 @@ function Statistics() {
             </Item>;
           })}
         </div>
-      </div>)}
+      </div>) : <NoRecord>目前没有相关记录</NoRecord>}
     </div>
   );
   const dataImg = (
