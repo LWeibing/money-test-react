@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useEffect, useRef, useState} from 'react';
 import {TypeSection} from '../components/Money/TypeSection';
 import styled from 'styled-components';
 import {RecordItem, useRecords} from '../hooks/useRecords';
@@ -24,7 +24,6 @@ const TabWrapper = styled.div`
   }
 `;
 const ChartWrapper = styled.div`
- 
   overflow:auto;
 `;
 const timeTitle = (string: string) => {
@@ -73,7 +72,12 @@ function Statistics() {
   const {getName} = useTags();
   const hash: { [k: string]: RecordItem[] } = {};
   const selectedRecords = records.filter(r => r.type === type);
-
+  const chartWrapper = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if(chartWrapper.current) {
+      chartWrapper.current.scrollLeft = chartWrapper.current.scrollWidth;
+    }
+  }, []);
   const groupList = () => {
     type Result = {
       title: string; total?: number; items: RecordItem[];
@@ -180,7 +184,7 @@ function Statistics() {
     </div>
   );
   const dataImg = (
-    <ChartWrapper>
+    <ChartWrapper ref={chartWrapper}>
       <Chart option={getOption()}/>
     </ChartWrapper>
   );
