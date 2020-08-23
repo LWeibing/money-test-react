@@ -77,7 +77,7 @@ function Statistics() {
     if(chartWrapper.current) {
       chartWrapper.current.scrollLeft = chartWrapper.current.scrollWidth;
     }
-  }, []);
+  }, [type1]);
   const groupList = () => {
     type Result = {
       title: string; total?: number; items: RecordItem[];
