@@ -4,7 +4,7 @@ import {useUpdate} from './useUpdate';
 export type RecordItem = {
   tagIds: number[]
   note: string
-  type: '-' | '+'
+  type: '-' | '+' | 'dataImg' | 'dataList'
   amount: number
   createdAt: string
 }

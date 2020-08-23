@@ -5,9 +5,27 @@ import styled from 'styled-components';
 import {RecordItem, useRecords} from '../hooks/useRecords';
 import {useTags} from '../hooks/useTags';
 import dayjs from 'dayjs';
+import {Chart} from '../components/Chart';
+import _ from 'lodash';
 
-const Tab = styled.div`
+const ShowTabWrapper = styled.div`
   background: white;
+  line-height: 46px;
+   /deep/ li.selected {
+      color: inherit;
+      border-bottom: 2px solid rgb(255, 153, 0);
+    }
+`;
+const TabWrapper = styled.div`
+  line-height: 64px;
+  /deep/ li.selected{
+    background: rgb(255, 153, 0);
+    color: white;
+  }
+`;
+const ChartWrapper = styled.div`
+ 
+  overflow:auto;
 `;
 const timeTitle = (string: string) => {
   const day = dayjs(string);
@@ -49,13 +67,82 @@ const Item = styled.div`
 `;
 
 function Statistics() {
-  const [type, setType] = useState<'-' | '+'>('-');
+  const [type, setType] = useState<'-' | '+' | 'dataImg' | 'dataList'>('-');
+  const [type1, setType2] = useState<'-' | '+' | 'dataImg' | 'dataList'>('dataImg');
   const {records} = useRecords();
   const {getName} = useTags();
   const hash: { [k: string]: RecordItem[] } = {};
   const selectedRecords = records.filter(r => r.type === type);
+
+  const groupList = () => {
+    type Result = {
+      title: string; total?: number; items: RecordItem[];
+    }[];
+    const newList = records.filter(r => r.type === type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    if (newList.length === 0) {return [];}
+    const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+    for (let i = 1; i < newList.length; i++) {
+      const current = newList[i];
+      const last = result[result.length - 1];
+      if (dayjs(last.title).isSame(dayjs(current.createdAt), 'day')) {
+        last.items.push(current);
+      } else {
+        result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
+      }
+    }
+    result.map(group => {
+      group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+    });
+    return result;
+  };
+  const group = groupList();
+  const getOption = () => {
+    const today = new Date();
+    const array = [];
+    for (let i = 0; i <= 29; i++) {
+      const key = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
+      const found = _.find(group, {title: key});
+      array.push({key: key, value: found && found.total || 0});
+    }
+    array.reverse();
+    const keys = array.map(item => item.key);
+    const values = array.map(item => item.value);
+    return {
+      tooltip: {
+        show: true,
+        triggerOn: 'click',
+        formatter: '{c}',
+        position: 'top'
+      },
+      grid: {
+        left: 0,
+        right: 0
+      },
+      xAxis: {
+        axisTick: {alignWithLabel: true},
+        type: 'category',
+        data: keys,
+        axisLabel: {
+          formatter: function (value: string) {
+            return value.substr(5);
+          }
+        }
+      },
+      yAxis: {
+        type: 'value',
+        show: false
+      },
+      series: [{
+        itemStyle: {color: 'rgb(255, 153, 0)'},
+        symbolSize: 8,
+        data: values,
+        type: 'line'
+      }]
+    };
+  };
+
   selectedRecords.forEach(r => {
-    const key = r.createdAt
+    const key = r.createdAt;
     if (!(key in hash)) {
       hash[key] = [];
     }
@@ -68,14 +155,13 @@ function Statistics() {
     if (a[0] < b[0]) return 1;
     return 0;
   });
-  return (
-    <Layout>
-      <Tab>
-        <TypeSection value={type} onChange={value => setType(value)}/>
-      </Tab>
+
+  const dataList = (
+    <div>
       {array.map(([date, records]) => <div key={date}>
         <Header>
           {timeTitle(date)}
+          <span>¥ {group.map(r => r.title === date ? r.total : '')}</span>
         </Header>
         <div>
           {records.map(r => {
@@ -91,6 +177,22 @@ function Statistics() {
           })}
         </div>
       </div>)}
+    </div>
+  );
+  const dataImg = (
+    <ChartWrapper>
+      <Chart option={getOption()}/>
+    </ChartWrapper>
+  );
+  return (
+    <Layout>
+      <TabWrapper>
+        <TypeSection typeArray={['-', '+']} value={type} onChange={value => setType(value)}/>
+      </TabWrapper>
+      <ShowTabWrapper>
+        <TypeSection typeArray={['dataImg', 'dataList']} value={type1} onChange={value => setType2(value)}/>
+      </ShowTabWrapper>
+      {type1 === 'dataImg' ? dataImg : dataList}
     </Layout>
   );
 }

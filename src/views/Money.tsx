@@ -13,8 +13,14 @@ const MyLayout = styled(Layout)`
   display: flex;
   flex-direction: column;
 `;
-
-type Type = '-' | '+';
+const TabWrapper = styled.div`
+  line-height: 64px;
+  /deep/ li.selected{
+    background: rgb(255, 153, 0);
+    color: white;
+  }
+`;
+type Type = '-' | '+' | 'dataImg' | 'dataList';
 
 const defaultFormData = {
   type: '-' as Type,
@@ -41,7 +47,9 @@ function Money(this: any) {
   };
   return (
     <MyLayout scrollTop={9999}>
-      <TypeSection value={selected.type} onChange={(type) => onChange({type})}/>
+      <TabWrapper>
+        <TypeSection typeArray={['-', '+']} value={selected.type} onChange={(type) => onChange({type})}/>
+      </TabWrapper>
       <TagsSection value={selected.tagIds} onChange={(tagIds) => onChange({tagIds})}/>
       <NoteSection value={selected.note} text="备注" type="text" onChange={(note) => onChange({note})}/>
       <NoteSection value={selected.createdAt} text="日期" type="date" onChange={(createdAt) => onChange({createdAt})}/>

@@ -9,27 +9,24 @@ const Wrapper = styled.section`
     font-size: 24px;
      >li{
        width: 50%;
-       line-height: 64px;
        display: flex;
        justify-content: center;
        align-items: center;
        position: relative;
-       &.selected {
-        background: rgb(255, 153, 0);
-        color: white;
-      }
      }
   }
 `;
 
 type Props = {
-  value: '-' | '+';
-  onChange: (value: '-' | '+') => void
+  value: '-' | '+' | 'dataImg' | 'dataList';
+  onChange: (value: '-' | '+' | 'dataImg' | 'dataList') => void
+  typeArray: any
 }
 const TypeSection: React.FC<Props> = (props) => {
-  const typeMap = {'-': '支出', '+': '收入'};
+  const typeMap = {'-': '支出', '+': '收入', 'dataImg': '图示', 'dataList': '列表'};
   type Keys = keyof typeof typeMap // 获取 typeMap 的key作为类型
-  const [typeList] = useState<Keys[]>(['-', '+']);
+  const typeArray = props.typeArray;
+  const [typeList] = useState<Keys[]>(typeArray);
   const type = props.value;
   return (
     <Wrapper>
